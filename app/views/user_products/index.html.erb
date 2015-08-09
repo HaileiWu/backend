@@ -1,0 +1,27 @@
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>产品名</th>
+			<th>用户名</th>
+			<th>期限</th>
+			<th>创建时间</th>
+			<th>修改时间</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @user_products.each_with_index do |up, index| %>
+			<tr>
+				<th><%= index+1 %></th>
+				<th><%= up.product.name %></th>
+				<th><%= up.user.username %></th>
+				<th><%= up.deadline %></th>
+				<th><%= up.created_at %></th>
+				<th><%= up.updated_at %></th>
+				<th></th>
+			</tr>
+		<% end %>
+	</tbody>
+</table>

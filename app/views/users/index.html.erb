@@ -1,0 +1,25 @@
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>用户名</th>
+			<th>密码</th>
+			<th>创建时间</th>
+			<th>修改时间</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @users.each_with_index do |user, index| %>
+			<tr>
+				<th><%= index+1 %></th>
+				<th><%= user.username %></th>
+				<th><%= user.password %></th>
+				<th><%= user.created_at %></th>
+				<th><%= user.updated_at %></th>
+				<th></th>
+			</tr>
+		<% end %>
+	</tbody>
+</table>

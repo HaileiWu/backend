@@ -1,0 +1,15 @@
+<%= form_for @product do |f| %>
+  <div class="form-group">
+    <%= f.label '名称' %>
+    <%= f.text_field :name, class: 'form-control' %>
+  </div>
+ 
+  <div class="form-group">
+    <%= f.label '版本' %>
+    <%= f.text_field :version, class: 'form-control' %>
+  </div>
+  
+  <div class="form-group">
+    <%= f.submit '提交', class: 'btn btn-primary' %>
+  </div>
+<% end %>

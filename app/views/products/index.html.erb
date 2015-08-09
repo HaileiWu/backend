@@ -1,0 +1,35 @@
+<% content_for :header do %>
+  <%= stylesheet_link_tag "product" %>
+<% end %>
+
+<%= link_to new_product_path, class: "btn btn-sm btn-success pull-right" do %>
+	添加
+<% end %>
+
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>名称</th>
+			<th>版本</th>
+			<th>创建时间</th>
+			<th>修改时间</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @products.each_with_index do |product, index| %>
+			<tr>
+				<th><%= index+1 %></th>
+				<th><%= product.name %></th>
+				<th><%= product.version %></th>
+				<th><%= product.created_at %></th>
+				<th><%= product.updated_at %></th>
+				<th>
+					<%= link_to '修改', edit_product_path(product.id), class: "btn btn-xs btn-primary" %>
+				</th>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
