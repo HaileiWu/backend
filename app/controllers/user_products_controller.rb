@@ -1,4 +1,7 @@
 class UserProductsController < ApplicationController
+
+	protect_from_forgery with: :null_session, on: :create
+
 	def index
 		@user_products = UserProduct.all
 	end
@@ -9,11 +12,11 @@ class UserProductsController < ApplicationController
 		product_id = params['product_id']
 		duration = params['duration']
 
-		if not duration.is_a? Integer
-			render json: {code: 500, msg: '时间间隔不是整数'} and return
-		else
-			duration = duration / 24 
-		end
+		# if not duration.is_a? Integer
+		# 	render json: {code: 500, msg: '时间间隔不是整数'} and return
+		# else
+			duration = duration.to_i / 24 
+		# end
 
 		user_product = UserProduct.find_by user_id: user_id, product_id: product_id
 
@@ -22,10 +25,13 @@ class UserProductsController < ApplicationController
 				render json: {code: 500, msg: '用户产品信息已存在'} and return
 			end
 			user_product.duration = duration
-			user_product.save
+			user_product.deadline = DateTime.now + duration.days
+			user_product.save!
+			render json: {code: 200, msg: "天数#{duration}"} and return
 		end
 
-		render json: {code: 200, msg: "天数#{duration}"}
+		render json: {code: 500, msg: '用户产品信息不存在'}
+
 	end
 
 end

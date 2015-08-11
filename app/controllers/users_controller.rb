@@ -1,4 +1,8 @@
+# encoding: utf-8
 class UsersController < ApplicationController
+
+	protect_from_forgery with: :null_session, on: :create
+
 	def index
 		@users = User.all
 	end
@@ -10,14 +14,14 @@ class UsersController < ApplicationController
 		product_id = params['product_id']
 		device = params['device']
 
-		if username.nil? or password.nil? or version.nil? or device.nil?
+		if username.nil? or password.nil? or product_id.nil? or device.nil?
 			render json: {'code'=> 500, 'msg'=> '参数有空值'} and return
 		end
 
 		# 校验用户名、密码是否存在
-		user = User.find_by 'username': username, 'device': device
+		user = User.find_by username: username, device: device
 		if user.nil?
-			user = User.new 'username': username, 'password': password, 'device': device
+			user = User.new username: username, password: password, device: device
 		end
 
 		if user.save 
@@ -31,9 +35,13 @@ class UsersController < ApplicationController
 		end
 
 		# 获取返回值
-		user_products = UserProduct.find_by user_id: user.id
-		result = {user_id: user.id, products: []}
-		user_products.each {|user_product| result['products'] >> user_product}
+		user_products = UserProduct.where user_id: user.id
+		result = {'user_id' => user.id.to_s, 'products' => []}
+		user_products.each do |user_product| 
+			product = user_product.product
+			product.id = product.id.to_s
+			result['products'] << product
+		end
 
 		render json: result
 	end
